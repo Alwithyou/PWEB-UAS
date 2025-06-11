@@ -14,6 +14,7 @@
             <ul class="p-4 space-y-2">
                 <li><a href="{{ route('user.dashboard') }}" class="block">Etalase Alat</a></li>
                 <li><a href="{{ route('user.kelola') }}" class="block">Kelola Alat</a></li>
+                <li><a href="{{ route('user.profil') }}" class="block">Profile</a></li>
                 {{-- @if($hasAlat)
                     <li><a href="{{ route('user.kelola') }}" class="block">Kelola Alat</a></li>
                 @endif --}}

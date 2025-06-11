@@ -50,4 +50,8 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Link verifikasi telah dikirim!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send'); 
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/user/profil', function () {
+    return view('user.profil');
+})->middleware(['auth', 'verified'])->name('user.profil');

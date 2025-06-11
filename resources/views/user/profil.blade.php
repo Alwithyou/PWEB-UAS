@@ -7,7 +7,10 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
     <div class="container mx-auto mt-10">
-        <h1 class="text-3xl font-bold mb-4">Dashboard user</h1>
+<<<<<<< HEAD
+=======
+        <h1 class="text-3xl font-bold mb-4">Dashboard ADMIN</h1>
+>>>>>>> 4095ddb372fb64ff733808e9010c6190506c4983
     </div>
 </body>
 </html>

@@ -7,7 +7,8 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
     <div class="container mx-auto mt-10">
-        <h1 class="text-3xl font-bold mb-4">Dashboard</h1>
+        <h1 class="text-3xl font-bold mb-4">Dashboard user</h1>
+        <h1 class="text-3xl font-bold mb-4">Dashboard ADMIN</h1>
     </div>
 </body>
 </html>

@@ -22,6 +22,6 @@ class CreateAlatCampingTable extends Migration
 
     public function down()
     {
-        Schema::connection('camp')->dropIfExists('alat_camping');
+        Schema::dropIfExists('alat_camping');
     }
 }

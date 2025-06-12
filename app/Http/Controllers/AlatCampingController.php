@@ -5,27 +5,28 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AlatCamping;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AlatCampingController extends Controller
 {
     public function index()
     {
-        $alatSaya = AlatCamping::where('pengguna_id', Auth::id())->get();
-        return view('user.KelolaAlat.index', compact('alatSaya'));
+        $alat = AlatCamping::where('pengguna_id', Auth::id())->get();
+        return view('user.barang.kelolaAlat', compact('alat'));
     }
 
     public function create()
     {
-        return view('user.KelolaAlat.create');
+        return view('user.barang.tambahAlat');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required',
-            'description' => 'nullable',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
             'price_per_day' => 'required|numeric',
-            'photo' => 'nullable|image|max:2048',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -41,6 +42,56 @@ class AlatCampingController extends Controller
         return redirect()->route('user.kelola')->with('success', 'Alat berhasil ditambahkan!');
     }
 
-    // Tambahkan edit, update, destroy nanti jika kamu siap
-}
+    public function edit($id)
+    {
+        $alat = AlatCamping::where('pengguna_id', Auth::id())->findOrFail($id);
+        return view('user.barang.editAlat', compact('alat'));
+    }
 
+    public function update(Request $request, $id)
+    {
+        $alat = AlatCamping::where('pengguna_id', Auth::id())->findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price_per_day' => 'required|numeric',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        if ($request->hasFile('photo')) {
+            if ($alat->photo && Storage::disk('public')->exists($alat->photo)) {
+                Storage::disk('public')->delete($alat->photo);
+            }
+
+            $path = $request->file('photo')->store('alat_photos', 'public');
+            $validated['photo'] = $path;
+        }
+
+        $alat->update($validated);
+
+        return redirect()->route('user.kelola')->with('success', 'Alat berhasil diperbarui!');
+    }
+
+    public function destroy($id)
+    {
+        $alat = AlatCamping::where('pengguna_id', Auth::id())->findOrFail($id);
+
+        if ($alat->photo && Storage::disk('public')->exists($alat->photo)) {
+            Storage::disk('public')->delete($alat->photo);
+        }
+
+        $alat->delete();
+
+        return redirect()->route('user.kelola')->with('success', 'Alat berhasil dihapus!');
+    }
+
+    public function dashboard()
+    {
+    $alat = AlatCamping::where('status', 'available')->get();
+    $hasAlat = AlatCamping::where('pengguna_id', Auth::id())->exists();
+
+    return view('user.dashboardUser', compact('alat', 'hasAlat'));
+    }
+
+}

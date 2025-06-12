@@ -12,13 +12,13 @@ class CreateDetailTransaksiTable extends Migration
             $table->id();
             $table->foreignId('transaksi_id')->constrained('transaksi')->onDelete('cascade');
             $table->foreignId('alat_camping_id')->constrained('alat_camping')->onDelete('cascade');
-            $table->decimal('price_per_day', 10, 2);
+            $table->decimal('total_price', 12, 2);
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::connection('camp')->dropIfExists('detail_transaksi');
+        Schema::dropIfExists('detail_transaksi');
     }
 }

@@ -4,54 +4,55 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
-use App\Models\AlatCamping;
 use App\Http\Controllers\AlatCampingController;
+use App\Http\Controllers\PemesananController;
+use App\Models\AlatCamping;
+use App\Http\Controllers\UserController;
 
-// Auth routes
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Dashboard USER
-Route::get('/user/dashboard', function () {
-    $alat = AlatCamping::where('status', 'available')->get();
-    $hasAlat = AlatCamping::where('pengguna_id', auth()->id())->exists();
-    return view('user.dashboardUser', compact('alat', 'hasAlat'));
-})->middleware(['auth', 'verified'])->name('user.dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', fn() => view('auth.verify-email'))->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect()->route('user.dashboard');
+    })->middleware('signed')->name('verification.verify');
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', 'Link verifikasi telah dikirim!');
+    })->middleware('throttle:6,1')->name('verification.send');
+});
 
-// Kelola Alat
-Route::get('/user/kelola-alat', function () {
-    $alatSaya = AlatCamping::where('pengguna_id', auth()->id())->get();
-    return view('user.barang.kelolaAlat', compact('alatSaya'));;
-})->middleware(['auth', 'verified'])->name('user.kelola');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/user/dashboard', [AlatCampingController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/user/profil', [UserController::class, 'profil'])->name('user.profil');
+    Route::get('/user/profil/edit', [UserController::class, 'editProfil'])->name('user.profil.edit');
+    Route::put('/user/profil/update', [UserController::class, 'updateProfil'])->name('user.profil.update');
+});
 
-Route::get('/user/barang/tambah', function () {
-    return view('user.barang.tambahAlat');
-})->middleware(['auth', 'verified'])->name('user.alat.tambah');
+Route::middleware(['auth', 'verified'])->prefix('user')->group(function () {
+    Route::get('/kelola-alat', [AlatCampingController::class, 'index'])->name('user.kelola');
+    Route::get('/barang/tambah', fn() => view('user.barang.tambahAlat'))->name('user.alat.tambah');
+    Route::post('/barang/simpan', [AlatCampingController::class, 'store'])->name('user.alat.simpan');
+    Route::get('/barang/{id}/edit', [AlatCampingController::class, 'edit'])->name('user.alat.edit');
+    Route::put('/barang/{id}/update', [AlatCampingController::class, 'update'])->name('user.alat.update');
+    Route::delete('/barang/{id}', [AlatCampingController::class, 'destroy'])->name('user.alat.destroy');
+});
 
-use App\Http\Controllers\UserAlatController;
+Route::get('/alat/{id}', [PemesananController::class, 'show'])->name('alat.detail');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/alat/{id}/sewa', [PemesananController::class, 'formSewa'])->name('alat.formSewa');
+    Route::post('/alat/{id}/sewa', [PemesananController::class, 'prosesSewa'])->name('alat.prosesSewa');
+});
 
-Route::post('/user/barang/simpan', [AlatCampingController::class, 'store'])
-    ->middleware(['auth', 'verified'])
-    ->name('user.alat.simpan');
-
-// Verifikasi Email
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect()->route('user.dashboard');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-    return back()->with('message', 'Link verifikasi telah dikirim!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-Route::get('/user/profil', function () {
-    return view('user.profil');
-})->middleware(['auth', 'verified'])->name('user.profil');
+Route::middleware(['auth', 'verified'])->prefix('user/pesanan')->group(function () {
+    Route::get('/kelola', [PemesananController::class, 'kelolaPesanan'])->name('user.pesanan.kelola');
+    Route::get('/{id}', [PemesananController::class, 'detailPesanan'])->name('user.pesanan.detail');
+    Route::post('/{id}/approve', [PemesananController::class, 'setujuiPesanan'])->name('user.pesanan.approve');
+    Route::post('/{id}/reject', [PemesananController::class, 'tolakPesanan'])->name('user.pesanan.reject');
+});

@@ -13,7 +13,7 @@ class Pengguna extends Authenticatable implements MustVerifyEmail
     protected $table = 'pengguna';
 
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'status', 'address'
+        'name', 'email', 'password', 'role', 'status', 'address', 'phone'
     ];
 
     protected $hidden = [

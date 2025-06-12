@@ -23,6 +23,7 @@ class CreateTransaksiTable extends Migration
 
     public function down()
     {
-        Schema::connection('camp')->dropIfExists('transaksi');
+        Schema::dropIfExists('transaksi');
     }
+
 }

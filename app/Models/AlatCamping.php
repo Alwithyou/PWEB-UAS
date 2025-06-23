@@ -16,4 +16,6 @@ class AlatCamping extends Model
     {
         return $this->belongsTo(Pengguna::class, 'pengguna_id');
     }
+
+    
 }

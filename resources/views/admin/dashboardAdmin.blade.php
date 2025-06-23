@@ -1,18 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100 text-gray-800">
-    <div class="container mx-auto mt-10">
-        <h1 class="text-3xl font-bold mb-4">Dashboard Admin</h1>
-        <p class="text-lg">Selamat datang, {{ Auth::user()->name }} (Admin)!</p>
-        <form method="POST" action="{{ route('logout') }}" class="mt-6">
-            @csrf
-            <button class="bg-red-500 text-white px-4 py-2 rounded" type="submit">Logout</button>
-        </form>
+@extends('layouts.admin')
+
+@section('title', 'Dashboard')
+
+@section('content')
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Card 1: Total User -->
+    <div class="bg-white shadow-md rounded-xl p-6">
+        <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Pengguna</h2>
+        <p class="text-3xl font-bold text-green-700">{{ $totalUser }}</p>
     </div>
-</body>
-</html>
+
+    <!-- Card 2: Total Alat -->
+    <div class="bg-white shadow-md rounded-xl p-6">
+        <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Alat</h2>
+        <p class="text-3xl font-bold text-green-700">{{ $totalAlat }}</p>
+    </div>
+
+    <!-- Card 3: Total Pesanan -->
+    <div class="bg-white shadow-md rounded-xl p-6">
+        <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Pesanan</h2>
+        <p class="text-3xl font-bold text-green-700">{{ $totalPesanan }}</p>
+    </div>
+</div>
+@endsection

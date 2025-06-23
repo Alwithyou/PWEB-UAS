@@ -9,17 +9,14 @@ use App\Models\Pengguna;
 
 class AuthController extends Controller
 {
-    public function showLogin()
-    {
-        return view('auth.login');
-    }
+    
 
     public function showRegister()
     {
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function registerAjax(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required',
@@ -33,25 +30,36 @@ class AuthController extends Controller
         Auth::login($user);
         $user->sendEmailVerificationNotification();
 
-        return redirect()->route('verification.notice');
+        return response()->json([
+            'message' => 'Register berhasil, silakan verifikasi email.',
+            'redirect' => route('verification.notice')
+        ]);
+    }
+
+
+    public function showLogin()
+    {
+        return view('auth.login');
     }
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
 
             $user = Auth::user();
-            if ($user->role === 'admin') {
-                return redirect('/admin/dashboard');
-            } else {
-                return redirect('/user/dashboard');
-            }
+
+            $route = $user->role === 'admin'
+                ? route('admin.dashboard')
+                : route('user.dashboard');
+
+            return response()->json([
+                'message' => 'Login berhasil',
+                'redirect' => $route
+            ]);
         }
 
-        return back()->withErrors(['email' => 'Email atau password salah.']);
+        return response()->json(['message' => 'Email atau password salah'], 401);
     }
 
     public function logout(Request $request)
@@ -59,6 +67,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        return redirect('/');
     }
 }

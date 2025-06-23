@@ -14,9 +14,11 @@ class CreateTransaksiTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->text('address');
-            $table->enum('status', ['pending', 'approved', 'rejected', 'returned'])->default('pending');
+            $table->string('identity_photo'); 
+            $table->enum('status', ['pending', 'approved', 'rejected', 'menunggu_pembayaran', 'menunggu_pengambilan', 'disewa', 'returned']) ->default('pending');
             $table->timestamp('returned_at')->nullable();
             $table->text('notes')->nullable();
+            $table->string('bukti_pembayaran')->nullable();
             $table->timestamps();
         });
     }

@@ -1,44 +1,117 @@
 @extends('layouts.userlayout')
 
 @section('content')
-    <h1 class="text-xl font-bold mb-4">Detail Pesanan</h1>
+<div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
+    <h1 class="text-2xl font-bold mb-4">Detail Pesanan</h1>
 
-    <div class="bg-white p-6 rounded shadow">
-        <h2 class="text-lg font-semibold">Penyewa: {{ $transaksi->pengguna->name }}</h2>
-        <p class="text-sm text-gray-600 mb-2">Email: {{ $transaksi->pengguna->email }}</p>
+    {{-- Informasi Penyewa --}}
+    <div class="mb-4">
+        <p><strong>Nama Penyewa:</strong> {{ $transaksi->pengguna->name }}</p>
+        <p><strong>Email:</strong> {{ $transaksi->pengguna->email }}</p>
+    </div>
 
-        <hr class="my-2">
-
-        <p><strong>Alamat:</strong> {{ $transaksi->address }}</p>
-        <p><strong>Tanggal Sewa:</strong> {{ $transaksi->start_date }} - {{ $transaksi->end_date }}</p>
+    {{-- Informasi Pemesanan --}}
+    <div class="mb-4">
+        <p><strong>Tanggal Sewa:</strong> {{ $transaksi->start_date }} s/d {{ $transaksi->end_date }}</p>
+        <p><strong>Alamat Pengambilan:</strong> {{ $transaksi->address }}</p>
         <p><strong>Status:</strong> 
-            <span class="font-semibold {{ $transaksi->status == 'pending' ? 'text-yellow-500' : ($transaksi->status == 'approved' ? 'text-green-500' : 'text-red-500') }}">
+            <span class="inline-block px-2 py-1 rounded text-white
+                @if($transaksi->status === 'pending') bg-yellow-500
+                @elseif($transaksi->status === 'approved') bg-green-500
+                @elseif($transaksi->status === 'rejected') bg-red-500
+                @elseif($transaksi->status === 'menunggu_pengambilan') bg-blue-600
+                @elseif($transaksi->status === 'disewa') bg-indigo-600
+                @elseif($transaksi->status === 'returned') bg-green-600
+                @endif">
                 {{ ucfirst($transaksi->status) }}
             </span>
         </p>
+        @if($transaksi->returned_at)
+            <p><strong>Tanggal Pengembalian:</strong> {{ $transaksi->returned_at }}</p>
+        @endif
 
-        <hr class="my-2">
-
-        <h3 class="font-semibold">Alat Disewa:</h3>
-        @foreach($transaksi->detailTransaksi as $detail)
-            <div class="mt-2 p-2 border rounded">
-                <p><strong>{{ $detail->alatCamping->name }}</strong></p>
-                <p class="text-sm">{{ $detail->alatCamping->description }}</p>
-                <p class="text-sm">Harga/hari: Rp{{ number_format($detail->price_per_day, 0, ',', '.') }}</p>
-            </div>
-        @endforeach
-
-        @if($transaksi->status === 'pending')
-            <div class="mt-4 flex space-x-2">
-                <form method="POST" action="{{ route('user.pesanan.approve', $transaksi->id) }}">
-                    @csrf
-                    <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Setujui</button>
-                </form>
-                <form method="POST" action="{{ route('user.pesanan.reject', $transaksi->id) }}">
-                    @csrf
-                    <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Tolak</button>
-                </form>
-            </div>
+        @if($transaksi->notes)
+            <p class="mt-2"><strong>Catatan:</strong> {{ $transaksi->notes }}</p>
         @endif
     </div>
+
+    {{-- Foto Identitas --}}
+    @if($transaksi->identity_photo)
+    <div class="mb-4">
+        <h2 class="text-lg font-semibold">Foto Identitas Penyewa</h2>
+        <img src="{{ asset('storage/' . $transaksi->identity_photo) }}" class="w-40 mt-2 rounded" alt="Identitas">
+    </div>
+    @endif
+
+    {{-- Bukti Pembayaran --}}
+    @if($transaksi->bukti_pembayaran)
+    <div class="mb-4">
+        <h2 class="text-lg font-semibold">Bukti Pembayaran</h2>
+        <img src="{{ asset('storage/' . $transaksi->bukti_pembayaran) }}" class="w-64 mt-2 rounded shadow" alt="Bukti Pembayaran">
+    </div>
+    @endif
+
+    {{-- Informasi Alat --}}
+    @php $detail = $transaksi->detailTransaksi; @endphp
+    @if($detail && $detail->alatCamping)
+    <div class="mb-4">
+        <h2 class="text-lg font-semibold">Alat Disewa</h2>
+        <div class="border rounded p-3 mt-2">
+            <p><strong>Nama Alat:</strong> {{ $detail->alatCamping->name }}</p>
+            <p><strong>Deskripsi:</strong> {{ $detail->alatCamping->description }}</p>
+            <p><strong>Total Harga:</strong> Rp {{ number_format($detail->total_price, 0, ',', '.') }}</p>
+            @if($detail->alatCamping->photo)
+                <img src="{{ asset('storage/' . $detail->alatCamping->photo) }}" class="w-40 mt-2 rounded" alt="Foto Alat">
+            @endif
+        </div>
+    </div>
+    @else
+        <p class="text-red-500">Detail alat tidak ditemukan.</p>
+    @endif
+
+    {{-- Tombol Aksi --}}
+    @if($transaksi->status === 'pending')
+        {{-- APPROVE FORM --}}
+        <form method="POST" action="{{ route('user.pesanan.approve', $transaksi->id) }}" class="mt-4">
+            @csrf
+            <label class="block font-medium">Catatan (Opsional):</label>
+            <textarea name="notes" rows="2" class="w-full p-2 border rounded mb-2" placeholder="Tulis catatan...">{{ old('notes') }}</textarea>
+            
+            <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                Setujui Pesanan
+            </button>
+        </form>
+
+        {{-- REJECT FORM --}}
+        <form method="POST" action="{{ route('user.pesanan.reject', $transaksi->id) }}" class="mt-4">
+            @csrf
+            <label class="block font-medium">Catatan (Opsional):</label>
+            <textarea name="notes" rows="2" class="w-full p-2 border rounded mb-2" placeholder="Tulis alasan penolakan...">{{ old('notes') }}</textarea>
+
+            <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                Tolak Pesanan
+            </button>
+        </form>
+    @elseif($transaksi->status === 'menunggu_pengambilan')
+        {{-- UBAH JADI DISEWA --}}
+        <form method="POST" action="{{ route('user.pesanan.ubahSewa', $transaksi->id) }}" class="mt-4">
+            @csrf
+            <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                Ubah Menjadi Disewa
+            </button>
+        </form>
+    @elseif($transaksi->status === 'disewa')
+        {{-- TANDAI SUDAH DIKEMBALIKAN --}}
+        <form method="POST" action="{{ route('user.pesanan.kembalikan', $transaksi->id) }}" class="mt-4">
+            @csrf
+            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Tandai Sudah Dikembalikan
+            </button>
+        </form>
+    @endif
+
+    <a href="{{ route('user.pesanan.kelola') }}" class="block mt-6 text-blue-600 hover:underline">
+        ← Kembali ke Daftar Pesanan
+    </a>
+</div>
 @endsection

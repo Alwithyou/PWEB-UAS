@@ -86,12 +86,40 @@ class AlatCampingController extends Controller
         return redirect()->route('user.kelola')->with('success', 'Alat berhasil dihapus!');
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-    $alat = AlatCamping::where('status', 'available')->get();
-    $hasAlat = AlatCamping::where('pengguna_id', Auth::id())->exists();
+        $alat = $this->getAlatData($request);
+        $hasAlat = AlatCamping::where('pengguna_id', Auth::id())->exists();
 
-    return view('user.dashboardUser', compact('alat', 'hasAlat'));
+        if ($request->ajax()) {
+            return view('partials.alatCard', compact('alat'));
+        }
+
+        return view('user.dashboardUser', compact('alat', 'hasAlat'));
     }
+
+    private function getAlatData(Request $request)
+    {
+        $query = AlatCamping::where('status', 'available');
+
+        if ($request->has('search') && $request->search !== null) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        return $query->get();
+    }
+
+    public function Market(Request $request)
+    {
+        $alat = $this->getAlatData($request);
+        $hasAlat = Auth::check() ? AlatCamping::where('pengguna_id', Auth::id())->exists() : false;
+
+        if ($request->ajax()) {
+            return view('partials.alatCard', compact('alat'));
+        }
+
+        return view('market', compact('alat', 'hasAlat'));
+    }
+
 
 }

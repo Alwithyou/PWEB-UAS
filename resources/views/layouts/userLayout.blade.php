@@ -1,83 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <meta charset="UTF-8">
+    <title>@yield('title', 'Dashboard Pemilik')</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </head>
-<body class="bg-gray-50">
-    <div class="flex min-h-screen">
-        <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-0">
-            <div class="flex items-center justify-between p-6 border-b border-gray-200">
-                <h2 class="text-xl font-bold text-gray-800">MENU</h2>
-            </div>
+<body class="bg-gray-100 text-stone-100">
 
-            <nav class="p-4">
-                <ul class="space-y-1">
-                    <li>
-                        <a href="{{ route('user.dashboard') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200 group">
-                            <iconify-icon icon="mdi:storefront-outline" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500"></iconify-icon>
-                            <span class="font-medium">Market</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('user.kelola') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200 group">
-                            <iconify-icon icon="mdi:toolbox-outline" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500"></iconify-icon>
-                            <span class="font-medium">Kelola Alat</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('user.pesanan.kelola') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200 group">
-                            <iconify-icon icon="mdi:clipboard-text-outline" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500"></iconify-icon>
-                            <span class="font-medium">Kelola Pesanan</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('user.profil') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200 group">
-                            <iconify-icon icon="mdi:account-outline" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500"></iconify-icon>
-                            <span class="font-medium">Profile</span>
-                        </a>
-                    </li>
-                </ul>
+<div class="flex min-h-screen">
 
-                <div class="mt-8 pt-4 border-t border-gray-200">
-                    <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="flex items-center w-full px-4 py-3 text-red-600 rounded-lg hover:bg-red-50 transition-colors duration-200 group">
-                        <iconify-icon icon="mdi:logout" class="w-5 h-5 mr-3"></iconify-icon>
-                        <span class="font-medium">Logout</span>
-                    </button>
-                    </form>
-                </div>
-            </nav>
+    {{-- Sidebar --}}
+    <aside id="sidebar" class="w-64 bg-gradient-to-br from-stone-800 via-stone-900 to-stone-800 shadow-xl hidden md:block">
+        <div class="p-6 border-b border-stone-700">
+            <h2 class="text-2xl font-bold text-white">CampEase</h2>
+            <p class="text-sm text-stone-400 mt-1">Pemilik Menu</p>
         </div>
 
-        <div class="flex-1 flex flex-col md:ml-0">
-            <header class="bg-white shadow-sm border-b border-gray-200">
-            <div class="flex items-center justify-between px-6 py-4">
-                <div class="flex items-center">
-                <h1 class="ml-2 md:ml-0 text-2xl font-semibold text-gray-800">CampEase</h1>
-                </div>
+        <nav class="p-4 space-y-2">
+            <a href="{{ route('user.dashboard') }}" class="flex items-center px-4 py-3 rounded-lg text-stone-300 hover:text-amber-400 hover:bg-stone-700/50 transition">
+                <iconify-icon icon="mdi:storefront-outline" class="w-5 h-5 mr-3 text-stone-400 group-hover:text-amber-400"></iconify-icon>
+                <span>Market</span>
+            </a>
 
-                <div class="flex items-center space-x-4">
-                <div class="relative">
-                    <button class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
-                    <span class="hidden sm:block text-sm font-medium text-gray-700">User</span>
-                    </button>
-                </div>
-                </div>
+            <a href="{{ route('user.kelola') }}" class="flex items-center px-4 py-3 rounded-lg text-stone-300 hover:text-amber-400 hover:bg-stone-700/50 transition">
+                <iconify-icon icon="mdi:toolbox-outline" class="w-5 h-5 mr-3 text-stone-400"></iconify-icon>
+                <span>Kelola Alat</span>
+            </a>
+
+            <a href="{{ route('user.pesanan.kelola') }}" class="flex items-center px-4 py-3 rounded-lg text-stone-300 hover:text-amber-400 hover:bg-stone-700/50 transition">
+                <iconify-icon icon="mdi:clipboard-text-outline" class="w-5 h-5 mr-3 text-stone-400"></iconify-icon>
+                <span>Kelola Pesanan</span>
+            </a>
+
+            <form method="POST" action="{{ route('logout') }}" class="pt-4 border-t border-stone-700 mt-4">
+                @csrf
+                <button type="submit" class="w-full flex items-center px-4 py-3 text-red-300 hover:text-red-400 hover:bg-red-900/20 rounded-lg transition">
+                    <iconify-icon icon="mdi:logout" class="w-5 h-5 mr-3"></iconify-icon>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </nav>
+    </aside>
+
+    {{-- Main Content --}}
+    <div class="flex-1 flex flex-col">
+
+        {{-- Top Navbar --}}
+        <header class="bg-gradient-to-r from-stone-800 via-stone-900 to-stone-800 border-b border-stone-700 shadow">
+            <div class="flex justify-between items-center px-6 py-4">
+                <h1 class="text-xl font-semibold text-white">Kelola Rental</h1>
             </div>
-            </header>
+        </header>
 
-            <main class="flex-1 p-6 bg-gray-50">
+        {{-- Content Area --}}
+        <main class="flex-1 p-6 bg-gray-100 text-gray-800">
             <div class="max-w-7xl mx-auto">
                 @yield('content')
             </div>
-            </main>
-        </div>
+        </main>
     </div>
+</div>
 
 </body>
 </html>

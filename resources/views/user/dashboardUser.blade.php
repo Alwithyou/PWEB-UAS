@@ -50,37 +50,37 @@
                         <a href="{{ route('user.kelola') }}"
                            class="group flex items-center space-x-2 text-stone-300 hover:text-amber-400 font-medium transition-all duration-300 px-4 py-3 rounded-xl hover:bg-stone-700/50 hover:shadow-lg transform hover:-translate-y-0.5">
                             <ion-icon name="bag-outline" class="text-xl group-hover:scale-110 transition-transform duration-300"></ion-icon>
-                            <span>Kelola Alat</span>
+                            <span>Kelola Rental</span>
                         </a>
                     @endauth
                 </div>
+                    <!-- Right Side Actions -->
+                    <div class="flex items-center space-x-4">
+                        @auth
+                            <!-- Profile -->
+                            <a href="{{ route('user.profil') }}"
+                            class="group flex items-center justify-center w-12 h-12 rounded-full border-2 border-amber-400 hover:border-amber-300 hover:scale-110 transition-all duration-300 bg-stone-700 shadow-lg hover:shadow-xl">
+                                <ion-icon name="person-circle-outline" class="text-3xl text-white group-hover:text-amber-400 transition duration-300"></ion-icon>
+                            </a>
 
-                <!-- Right Side Actions -->
-                <div class="flex items-center space-x-4">
-                    @auth
-                        <!-- Profile -->
-                        <a href="{{ route('user.profil') }}"
-                           class="group relative w-12 h-12 rounded-full overflow-hidden border-3 border-amber-400 hover:border-amber-300 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl">
-                            <img src="{{ asset('images/profile-icon.png') }}" alt="Profil" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-amber-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </a>
+                            <!-- Logout -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button class="group flex items-center space-x-2 text-stone-300 hover:text-red-400 font-medium transition-all duration-300 px-4 py-3 rounded-xl hover:bg-red-900/20 hover:shadow-lg transform hover:-translate-y-0.5 border border-transparent hover:border-red-400/30">
+                                    <ion-icon name="log-out-outline" class="text-xl group-hover:scale-110 transition-transform duration-300"></ion-icon>
+                                    <span class="hidden sm:inline">Logout</span>
+                                </button>
+                            </form>
+                        @else
+                            <!-- Login Button -->
+                            <a href="{{ route('login') }}"
+                            class="group flex items-center space-x-2 bg-gradient-to-r from-amber-600 to-amber-700 text-white px-6 py-3 rounded-full hover:from-amber-700 hover:to-amber-800 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 border border-amber-500/30">
+                                <ion-icon name="key-outline" class="text-xl group-hover:scale-110 transition-transform duration-300"></ion-icon>
+                                <span>Login</span>
+                            </a>
+                        @endauth
+                    </div>
 
-                        <!-- Logout -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button class="group flex items-center space-x-2 text-stone-300 hover:text-red-400 font-medium transition-all duration-300 px-4 py-3 rounded-xl hover:bg-red-900/20 hover:shadow-lg transform hover:-translate-y-0.5 border border-transparent hover:border-red-400/30">
-                                <ion-icon name="log-out-outline" class="text-xl group-hover:scale-110 transition-transform duration-300"></ion-icon>
-                                <span class="hidden sm:inline">Logout</span>
-                            </button>
-                        </form>
-                    @else
-                        <!-- Login Button -->
-                        <a href="{{ route('login') }}"
-                           class="group flex items-center space-x-2 bg-gradient-to-r from-amber-600 to-amber-700 text-white px-6 py-3 rounded-full hover:from-amber-700 hover:to-amber-800 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 border border-amber-500/30">
-                            <ion-icon name="key-outline" class="text-xl group-hover:scale-110 transition-transform duration-300"></ion-icon>
-                            <span>Login</span>
-                        </a>
-                    @endauth
 
                     <!-- Mobile Menu Button (for responsive) -->
                     <button class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-stone-300 hover:text-amber-400 hover:bg-stone-700/50 transition-all duration-300">

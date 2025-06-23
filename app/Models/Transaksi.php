@@ -20,18 +20,15 @@ class Transaksi extends Model
         'bukti_pembayaran'
     ];
 
-    // Relasi ke pengguna (penyewa)
     public function pengguna()
     {
         return $this->belongsTo(Pengguna::class, 'pengguna_id');
-    }
+    }   
 
-    // Relasi ke detail transaksi (pivot alat)
-    // Jika 1 transaksi hanya untuk 1 alat
-public function detailTransaksi()
-{
-    return $this->hasOne(DetailTransaksi::class, 'transaksi_id');
-}
+    public function detailTransaksi()
+    {
+        return $this->hasOne(DetailTransaksi::class, 'transaksi_id');
+    }
 
 
 public function alatCamping()

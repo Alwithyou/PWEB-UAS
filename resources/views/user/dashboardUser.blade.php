@@ -23,7 +23,7 @@
                     </div>
                     <div>
                         <h1 class="text-2xl font-extrabold tracking-tight text-white">
-                            Camping<span class="text-amber-400">Rent</span>
+                            Camp<span class="text-amber-400">Ease</span>
                         </h1>
                         <div class="text-xs text-stone-400 font-medium tracking-wide">Adventure Starts Here</div>
                     </div>
@@ -161,31 +161,31 @@
         </div>
     </div>
 
-    <!-- Produk Alat Camping -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 mb-20">
-    <!-- Container dengan fixed height -->
-    <div class="bg-white rounded-xl shadow-lg border border-stone-200 p-6 min-h-[600px] relative">
-        <div id="alatList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            @include('partials.alatCard', ['alat' => $alat])
-        </div>
-
-        <!-- Empty State - akan muncul hanya jika tidak ada data -->
-        @if($alat->isEmpty())
-        <div class="absolute inset-0 flex flex-col items-center justify-center text-center opacity-80">
-            <div class="flex items-center justify-center w-24 h-24 bg-gradient-to-br from-stone-200 to-stone-300 rounded-full mb-4">
-                <ion-icon name="leaf-outline" class="text-4xl text-stone-600"></ion-icon>
+        <!-- Produk Alat Camping -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 mb-20">
+        <!-- Container dengan fixed height -->
+        <div class="bg-white rounded-xl shadow-lg border border-stone-200 p-6 min-h-[600px] relative">
+            <div id="alatList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                @include('partials.alatCard', ['alat' => $alat])
             </div>
+
+            <!-- Empty State - akan muncul hanya jika tidak ada data -->
+            @if($alat->isEmpty())
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center opacity-80">
+                <div class="flex items-center justify-center w-24 h-24 bg-gradient-to-br from-stone-200 to-stone-300 rounded-full mb-4">
+                    <ion-icon name="leaf-outline" class="text-4xl text-stone-600"></ion-icon>
+                </div>
+            </div>
+            @endif
         </div>
-        @endif
     </div>
-</div>
     <!-- Features Section -->
     <section class="bg-stone-800 py-16">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <div class="flex items-center justify-center space-x-2 mb-4">
                     <ion-icon name="star-outline" class="text-3xl text-amber-400"></ion-icon>
-                    <h3 class="text-3xl font-bold text-white">Mengapa Pilih CampingRent?</h3>
+                    <h3 class="text-3xl font-bold text-white">Mengapa Pilih CampEase?</h3>
                 </div>
                 <p class="text-stone-300 text-lg">Komitmen kami untuk petualangan camping terbaik Anda</p>
             </div>
@@ -224,7 +224,7 @@
                         <ion-icon name="earth-outline" class="text-2xl text-white"></ion-icon>
                     </div>
                     <h4 class="text-2xl font-bold text-white">
-                        Camping<span class="text-amber-400">Rent</span>
+                        Camp<span class="text-amber-400">Ease</span>
                     </h4>
                 </div>
                 <p class="text-stone-400 flex items-center justify-center space-x-2">
@@ -234,7 +234,7 @@
                 </p>
                 <div class="border-t border-stone-700 pt-6">
                     <p class="text-stone-500 flex items-center justify-center space-x-2">
-                        <span>&copy; {{ date('Y') }} CampingRent. Semua hak dilindungi.</span>
+                        <span>&copy; {{ date('Y') }} CampEase. Semua hak dilindungi.</span>
                         <span class="mx-2">•</span>
                         <span>Dibuat dengan</span>
                         <ion-icon name="heart" class="text-red-500"></ion-icon>

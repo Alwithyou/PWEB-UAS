@@ -44,8 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             container.appendChild(card);
-
-            // Tampilkan form upload jika status disetujui
             if (pesanan.status.toLowerCase() === 'approved') {
                 const uploadFormWrapper = document.getElementById('upload-bukti-form');
                 uploadFormWrapper.classList.remove('hidden');
@@ -79,12 +77,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
 
-        })
-        .catch(error => {
-            container.innerHTML = '<p class="text-red-500">Gagal memuat data.</p>';
-            console.error('Error:', error);
+                })
+                .catch(error => {
+                    container.innerHTML = '<p class="text-red-500">Gagal memuat data.</p>';
+                    console.error('Error:', error);
+                });
         });
-});
 
 function getStatusColor(status) {
     switch (status.toLowerCase()) {

@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pemesanan Saya</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    {{-- Load Vite (otomatis termasuk Tailwind jika sudah dikonfigurasi di app.js) --}}
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     @vite('resources/js/app.js')
     <script src="{{ asset('js/pemesananDetail.js') }}"></script>
 
@@ -23,7 +24,7 @@
                     </div>
                     <div>
                         <h1 class="text-2xl font-extrabold tracking-tight text-white">
-                            Camping<span class="text-amber-400">Rent</span>
+                            Camp<span class="text-amber-400">Ease</span>
                         </h1>
                         <div class="text-xs text-stone-400 font-medium tracking-wide">Adventure Starts Here</div>
                     </div>
@@ -60,10 +61,10 @@
                     @auth
                         <!-- Profile -->
                         <a href="{{ route('user.profil') }}"
-                           class="group relative w-12 h-12 rounded-full overflow-hidden border-3 border-amber-400 hover:border-amber-300 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl">
-                            <img src="{{ asset('images/profile-icon.png') }}" alt="Profil" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-amber-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </a>
+                            class="group flex items-center justify-center w-12 h-12 rounded-full border-2 border-amber-400 hover:border-amber-300 hover:scale-110 transition-all duration-300 bg-stone-700 shadow-lg hover:shadow-xl">
+                                <ion-icon name="person-circle-outline" class="text-3xl text-white group-hover:text-amber-400 transition duration-300"></ion-icon>
+                            </a>
+
 
                         <!-- Logout -->
                         <form method="POST" action="{{ route('logout') }}">

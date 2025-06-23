@@ -109,4 +109,6 @@ Route::post('/user/pemesanan/{id}/upload-bukti', [PemesananController::class, 'u
 });
 
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware(['auth', 'verified']);
-
+Route::get('/alat', [AdminController::class, 'kelolaAlat'])->name('admin.alat');
+Route::get('/pesanan', [AdminController::class, 'kelolaPesanan'])->name('admin.pesanan');
+Route::get('/users', [AdminController::class, 'kelolaUser'])->name('admin.users');

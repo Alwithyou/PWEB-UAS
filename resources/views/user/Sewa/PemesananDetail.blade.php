@@ -9,6 +9,7 @@
 </head>
 <body class="bg-gray-100 p-6">
     <div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
+        
         <h1 class="text-2xl font-semibold mb-6">Detail Pemesanan</h1>
         
         <!-- Kontainer detail pemesanan -->

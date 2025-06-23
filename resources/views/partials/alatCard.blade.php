@@ -9,7 +9,18 @@
             <p class="font-bold text-blue-600 mb-4">Rp{{ number_format($item->price_per_day, 0, ',', '.') }}/hari</p>
 
             @auth
-                <a href="{{ route('alat.formSewa', $item->id) }}" class="mt-auto bg-blue-600 text-white px-4 py-2 rounded text-center">Pesan Sekarang</a>
+                @if(auth()->id() == $item->pengguna_id)
+                    <button onclick="event.stopPropagation(); alert('Ini barang milik Anda.')" 
+                            class="mt-auto bg-gray-300 text-gray-600 px-4 py-2 rounded text-center cursor-not-allowed w-full">
+                        Barang Milik Anda
+                    </button>
+                @else
+                    <a href="{{ route('alat.formSewa', $item->id) }}" 
+                       onclick="event.stopPropagation();" 
+                       class="mt-auto bg-blue-600 text-white px-4 py-2 rounded text-center block w-full">
+                        Pesan Sekarang
+                    </a>
+                @endif
             @else
                 <p class="mt-auto text-red-500 text-sm">Login untuk memesan</p>
             @endauth

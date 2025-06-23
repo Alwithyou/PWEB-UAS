@@ -14,24 +14,24 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <h1 class="text-2xl font-bold">
-                    <span class="text-amber-400">⛺ Camping</span><span class="text-stone-100">Rent</span>
+                    <span class="text-amber-400">⛺ Camp</span><span class="text-stone-100">Ease</span>
                 </h1>
                 <div class="flex items-center space-x-4">
                     @auth
                         <a href="{{ route('user.kelola') }}" 
                            class="text-stone-300 hover:text-amber-400 font-medium transition duration-300 px-4 py-2 rounded-lg hover:bg-stone-700">
-                            🎒 Kelola Alat
+                            Kelola Alat
                         </a>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
                             <button class="text-stone-300 hover:text-red-400 font-medium transition duration-300 px-4 py-2 rounded-lg hover:bg-stone-700">
-                                🚪 Logout
+                            Logout
                             </button>
                         </form>
                     @else
                         <a href="{{ route('login') }}" 
                            class="bg-amber-600 text-white px-6 py-2 rounded-full hover:bg-amber-700 transition duration-300 font-medium shadow-lg">
-                            🔑 Login
+                            Login
                         </a>
                     @endauth
                 </div>
@@ -129,7 +129,7 @@
             <div class="text-center">
                 <div class="mb-6">
                     <h4 class="text-2xl font-bold mb-2">
-                        <span class="text-amber-400">⛺ Camping</span><span class="text-stone-100">Rent</span>
+                        <span class="text-amber-400">⛺ Camp</span><span class="text-stone-100">Ease</span>
                     </h4>
                     <p class="text-stone-400">🌲 Petualangan dimulai dari sini 🏔️</p>
                 </div>

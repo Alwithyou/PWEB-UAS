@@ -26,20 +26,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     </p>
                 `;
 
-                // Navigasi ke detail pesanan saat diklik
                 card.addEventListener('click', () => {
                     window.location.href = `/user/pemesanan/detail/${pesanan.id}`;
                 });
 
                 container.appendChild(card);
             });
-        })
-        .catch(error => {
-            const container = document.getElementById('pemesanan-container');
-            container.innerHTML = '<p class="text-red-500">Gagal memuat data.</p>';
-            console.error('Error:', error);
-        });
-});
+                    })
+                    .catch(error => {
+                        const container = document.getElementById('pemesanan-container');
+                        container.innerHTML = '<p class="text-red-500">Gagal memuat data.</p>';
+                        console.error('Error:', error);
+                    });
+            });
 
 function getStatusColor(status) {
     switch (status.toLowerCase()) {

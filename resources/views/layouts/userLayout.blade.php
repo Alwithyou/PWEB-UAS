@@ -7,9 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </head>
-<body class="bg-gray-100 text-stone-100">
+<body class="bg-gray-100 text-stone-100 h-screen overflow-hidden">
 
-<div class="flex min-h-screen">
+<div class="flex h-screen">
 
     {{-- Sidebar --}}
     <aside id="sidebar" class="w-64 bg-gradient-to-br from-stone-800 via-stone-900 to-stone-800 shadow-xl hidden md:block">
@@ -20,7 +20,7 @@
 
         <nav class="p-4 space-y-2">
             <a href="{{ route('user.dashboard') }}" class="flex items-center px-4 py-3 rounded-lg text-stone-300 hover:text-amber-400 hover:bg-stone-700/50 transition">
-                <iconify-icon icon="mdi:storefront-outline" class="w-5 h-5 mr-3 text-stone-400 group-hover:text-amber-400"></iconify-icon>
+                <iconify-icon icon="mdi:storefront-outline" class="w-5 h-5 mr-3 text-stone-400"></iconify-icon>
                 <span>Market</span>
             </a>
 
@@ -54,8 +54,8 @@
             </div>
         </header>
 
-        {{-- Content Area --}}
-        <main class="flex-1 p-6 bg-gray-100 text-gray-800">
+        {{-- Scrollable Content --}}
+        <main class="flex-1 overflow-y-auto p-6 bg-gray-100 text-gray-800">
             <div class="max-w-7xl mx-auto">
                 @yield('content')
             </div>
